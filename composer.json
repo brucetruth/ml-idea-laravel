@@ -1,0 +1,40 @@
+{
+  "name": "brucetruth/ml-idea-laravel",
+  "description": "Laravel integration for ml-idea ToolRoutingAgent",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "laravel",
+    "ai",
+    "agents",
+    "tool-routing",
+    "ml-idea"
+  ],
+  "require": {
+    "php": "^8.2",
+    "brucetruth/ml-idea": "*",
+    "illuminate/contracts": "^11.0|^12.0",
+    "illuminate/database": "^11.0|^12.0",
+    "illuminate/support": "^11.0|^12.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^11.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "ML\\IDEA\\Laravel\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "ML\\IDEA\\Laravel\\MlIdeaServiceProvider"
+      ],
+      "aliases": {
+        "MlIdeaAgent": "ML\\IDEA\\Laravel\\Facades\\MlIdeaAgent"
+      }
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

@@ -6,6 +6,7 @@ namespace ML\IDEA\Laravel\Support;
 
 use ML\IDEA\Exceptions\InvalidArgumentException;
 use ML\IDEA\RAG\Contracts\ToolRoutingModelInterface;
+use ML\IDEA\RAG\Http\SimpleHttpTransport;
 use ML\IDEA\RAG\LLM\AnthropicToolRoutingModel;
 use ML\IDEA\RAG\LLM\AzureOpenAIToolRoutingModel;
 use ML\IDEA\RAG\LLM\HeuristicToolRoutingModel;
@@ -54,10 +55,15 @@ final class RoutingModelFactory
     /** @param array<string, mixed> $config */
     private static function ollama(array $config): OllamaToolRoutingModel
     {
+        $apiKey = isset($config['api_key']) ? (string) $config['api_key'] : '';
+        $timeout = (int) ($config['http_timeout'] ?? 120);
+
         return new OllamaToolRoutingModel(
             model: (string) ($config['model'] ?? 'llama3.1'),
             baseUrl: (string) ($config['base_url'] ?? 'http://127.0.0.1:11434'),
+            http: new SimpleHttpTransport($timeout > 0 ? $timeout : 120),
             useNativeTools: (bool) ($config['native_tools'] ?? true),
+            apiKey: $apiKey !== '' ? $apiKey : null,
         );
     }
 

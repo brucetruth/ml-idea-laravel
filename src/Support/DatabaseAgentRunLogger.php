@@ -6,6 +6,7 @@ namespace ML\IDEA\Laravel\Support;
 
 use Illuminate\Database\Connection;
 use Illuminate\Database\DatabaseManager;
+use Illuminate\Support\Carbon;
 use ML\IDEA\RAG\Agents\AgentRunLogEntry;
 use ML\IDEA\RAG\Contracts\AgentRunLoggerInterface;
 
@@ -20,10 +21,11 @@ final class DatabaseAgentRunLogger implements AgentRunLoggerInterface
     public function log(AgentRunLogEntry $entry): void
     {
         $row = $entry->toArray();
+        $loggedAt = Carbon::parse((string) $row['logged_at'])->format('Y-m-d H:i:s');
 
         $this->connection->table($this->table)->insert([
             'id' => $row['id'],
-            'logged_at' => $row['logged_at'],
+            'logged_at' => $loggedAt,
             'agent_name' => $row['agent_name'],
             'session_id' => $row['session_id'],
             'user_message' => $row['user_message'],
@@ -41,8 +43,8 @@ final class DatabaseAgentRunLogger implements AgentRunLoggerInterface
             'pending_approval' => $row['pending_approval'] !== null
                 ? json_encode($row['pending_approval'], JSON_THROW_ON_ERROR)
                 : null,
-            'created_at' => $row['logged_at'],
-            'updated_at' => $row['logged_at'],
+            'created_at' => $loggedAt,
+            'updated_at' => $loggedAt,
         ]);
     }
 

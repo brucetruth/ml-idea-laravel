@@ -27,6 +27,8 @@ return [
             'model' => env('OLLAMA_MODEL', 'llama3.1'),
             'base_url' => env('OLLAMA_BASE_URL', 'http://127.0.0.1:11434'),
             'native_tools' => env('OLLAMA_NATIVE_TOOLS', true),
+            'api_key' => env('OLLAMA_API_KEY', ''),
+            'http_timeout' => (int) env('MLIDEA_HTTP_TIMEOUT', 120),
         ],
         'azure_openai' => [
             'api_key' => env('AZURE_OPENAI_API_KEY', ''),
